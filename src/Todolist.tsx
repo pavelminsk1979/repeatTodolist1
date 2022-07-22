@@ -5,10 +5,10 @@ import st from './Todolist.module.css'
 type TodolistType = {
     title: string
     tasks: Array<TasksType>
-    removeTask: (idTask: string) => void
+    removeTask: (idTodolist:string,idTask: string) => void
     filterTasks: (idTodolist:string,valueFilter: FilterType) => void
-    addedTask: (text: string) => void
-    changeTaskIsDone: (idTask: string, isDone: boolean) => void
+    addedTask: (idTodolist:string,text: string) => void
+    changeTaskIsDone: (idTodolist: string,idTask: string, isDone: boolean) => void
     filter:FilterType
     idTodolist:string
 }
@@ -22,7 +22,7 @@ export function Todolist(
 
 
     const removeTaskHandler = (idTask: string) => {
-        removeTask(idTask)
+        removeTask(idTodolist,idTask)
     }
 
     const filterTasksHandler = (idTodolist:string,valueFilter: FilterType) => {
@@ -31,7 +31,7 @@ export function Todolist(
 
     const addedTaskHandler = () => {
         if (text.trim() !== '') {
-            addedTask(text.trim())
+            addedTask(idTodolist,text.trim())
             setText('')
         } else {
             setError('Text is requaried!')
@@ -49,7 +49,7 @@ export function Todolist(
     }
 
     const changeTaskIsDoneHandler = (idTask: string, isDone: boolean) => {
-        changeTaskIsDone(idTask, isDone)
+        changeTaskIsDone(idTodolist,idTask, isDone)
     }
 
     return (
