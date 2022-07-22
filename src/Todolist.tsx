@@ -6,16 +6,17 @@ type TodolistType = {
     title: string
     tasks: Array<TasksType>
     removeTask: (idTask: string) => void
-    filterTasks: (valueFilter: FilterType) => void
+    filterTasks: (idTodolist:string,valueFilter: FilterType) => void
     addedTask: (text: string) => void
     changeTaskIsDone: (idTask: string, isDone: boolean) => void
     filter:FilterType
+    idTodolist:string
 }
 export type FilterType = 'all' | 'compl' | 'undone'
 
 
 export function Todolist(
-    {title, tasks, removeTask, filterTasks, addedTask, changeTaskIsDone,filter}: TodolistType) {
+    {title, tasks, removeTask, filterTasks, addedTask, changeTaskIsDone,filter,idTodolist}: TodolistType) {
     const [text, setText] = useState('')
     const [error, setError] = useState<string|null>(null)
 
@@ -24,8 +25,8 @@ export function Todolist(
         removeTask(idTask)
     }
 
-    const filterTasksHandler = (valueFilter: FilterType) => {
-        filterTasks(valueFilter)
+    const filterTasksHandler = (idTodolist:string,valueFilter: FilterType) => {
+        filterTasks(idTodolist,valueFilter)
     }
 
     const addedTaskHandler = () => {
@@ -83,11 +84,11 @@ export function Todolist(
             </ul>
             <div>
                 <button className={filter==='all'?st.activeButtonFiltr:''}
-                    onClick={() => filterTasksHandler('all')}>ALL</button>
+                    onClick={() => filterTasksHandler(idTodolist,'all')}>ALL</button>
                 <button className={filter==='compl'?st.activeButtonFiltr:''}
-                    onClick={() => filterTasksHandler('compl')}>Complited</button>
+                    onClick={() => filterTasksHandler(idTodolist,'compl')}>Complited</button>
                 <button className={filter==='undone'?st.activeButtonFiltr:''}
-                    onClick={() => filterTasksHandler('undone')}>Undone</button>
+                    onClick={() => filterTasksHandler(idTodolist,'undone')}>Undone</button>
             </div>
         </div>
     )
