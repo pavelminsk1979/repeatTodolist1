@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React from "react";
 import {TasksType} from "./App";
 import st from './Todolist.module.css'
 import {TemplateForTodolist} from "./TemplateForTodolist";
@@ -14,22 +14,24 @@ type TodolistType = {
     filter: FilterType
     idTodolist: string
     removeTodolist: (idTodolist: string) => void
+    changeTitleTask: (idTodolist: string, idTask: string,editTitle:string) => void
+    changeTitleTodolist:(idTodolist: string,editTitle:string)=>void
 }
 export type FilterType = 'all' | 'compl' | 'undone'
 
 
 export function Todolist(
-    {
-        title,
-        tasks,
-        removeTask,
-        filterTasks,
-        addedTask,
-        changeTaskIsDone,
-        filter,
-        idTodolist,
-        removeTodolist
+    {title, tasks, removeTask, filterTasks, addedTask, changeTaskIsDone,
+        filter, idTodolist, removeTodolist, changeTitleTask,changeTitleTodolist
     }: TodolistType) {
+
+    const changeTitleTodolistHandler = (editTitle:string) => {
+        changeTitleTodolist(idTodolist,editTitle)
+    }
+
+    const changeTitleTaskHandler = (idTask: string, editTitle: string) => {
+        changeTitleTask(idTodolist, idTask, editTitle)
+    }
 
     const removeTaskHandler = (idTask: string) => {
         removeTask(idTodolist, idTask)
@@ -53,7 +55,9 @@ export function Todolist(
 
     return (
         <div>
-            <h3>{title}
+            <h3> <TamplateForEditTitle
+                callback={changeTitleTodolistHandler}
+                title={title}/>
                 <button onClick={removeTodolistHandler}>DEL</button>
             </h3>
             <TemplateForTodolist callback={addedTaskHandler}/>
@@ -68,7 +72,11 @@ export function Todolist(
                                 type="checkbox"
                                 checked={el.isDone}
                             />
-                            <TamplateForEditTitle title={el.title}/>
+                            <TamplateForEditTitle
+                                callback={(
+                                    editTitle: string) => changeTitleTaskHandler(
+                                    el.id, editTitle)}
+                                title={el.title}/>
 
                             <button onClick={() => removeTaskHandler(el.id)}>✖️</button>
                         </li>
