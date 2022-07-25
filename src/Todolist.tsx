@@ -1,8 +1,11 @@
 import React from "react";
 import {TasksType} from "./App";
-import st from './Todolist.module.css'
 import {TemplateForTodolist} from "./TemplateForTodolist";
 import {TamplateForEditTitle} from "./TamplateForEditTitle";
+import {Button, Checkbox, Icon, IconButton} from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import {Backspace} from "@material-ui/icons";
+
 
 type TodolistType = {
     title: string
@@ -58,19 +61,29 @@ export function Todolist(
             <h3> <TamplateForEditTitle
                 callback={changeTitleTodolistHandler}
                 title={title}/>
-                <button onClick={removeTodolistHandler}>DEL</button>
+                <Button
+                    size={'small'}
+                    onClick={removeTodolistHandler}
+                    variant="outlined"
+                    color="primary"
+                    startIcon={<DeleteIcon />}>
+                    Delete
+                </Button>
             </h3>
             <TemplateForTodolist callback={addedTaskHandler}/>
-            <ul>{
+            <div>{
                 tasks.map(el => {
                     return (
-                        <li key={el.id}>
-                            <input
+                        <div key={el.id}>
+                            <Checkbox
+                                size={'small'}
                                 onChange={
                                     (event) => changeTaskIsDoneHandler(
                                         el.id, event.currentTarget.checked)}
-                                type="checkbox"
                                 checked={el.isDone}
+                                defaultChecked
+                                color="primary"
+                                inputProps={{ 'aria-label': 'secondary checkbox' }}
                             />
                             <TamplateForEditTitle
                                 callback={(
@@ -78,22 +91,33 @@ export function Todolist(
                                     el.id, editTitle)}
                                 title={el.title}/>
 
-                            <button onClick={() => removeTaskHandler(el.id)}>✖️</button>
-                        </li>
+                            <IconButton
+                                size={'small'}
+                                onClick={() => removeTaskHandler(el.id)} color="primary">
+                                <Backspace/>
+                            </IconButton>
+
+                        </div>
                     )
                 })
             }
-            </ul>
+            </div>
             <div>
-                <button className={filter === 'all' ? st.activeButtonFiltr : ''}
+                <Button color={filter === 'all'?'primary':'secondary'}
+                    size={filter === 'all'?"medium":'small'}
+                    variant={filter === 'all'?'contained':'outlined'}
                         onClick={() => filterTasksHandler(idTodolist, 'all')}>ALL
-                </button>
-                <button className={filter === 'compl' ? st.activeButtonFiltr : ''}
+                </Button>
+                <Button color={filter === 'compl'?'primary':'secondary'}
+                    size={filter === 'compl'?"medium":'small'}
+                    variant={filter === 'compl'?'contained':'outlined'}
                         onClick={() => filterTasksHandler(idTodolist, 'compl')}>Complited
-                </button>
-                <button className={filter === 'undone' ? st.activeButtonFiltr : ''}
+                </Button>
+                <Button color={filter === 'undone'?'primary':'secondary'}
+                    size={filter === 'undone'?"medium":'small'}
+                    variant={filter === 'undone'?'contained':'outlined'}
                         onClick={() => filterTasksHandler(idTodolist, 'undone')}>Undone
-                </button>
+                </Button>
             </div>
         </div>
     )

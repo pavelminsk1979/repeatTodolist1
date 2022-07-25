@@ -1,15 +1,17 @@
 import React, {ChangeEvent, useState} from "react";
+import {TextField} from "@material-ui/core";
 
-type TamplateForEditTitleType={
-    title:string
-    callback:(editTitle:string)=>void
+type TamplateForEditTitleType = {
+    title: string
+    callback: (editTitle: string) => void
 }
-export function TamplateForEditTitle (props:TamplateForEditTitleType) {
-    const[toggleSpanInput,setToggleSpanInput]=useState(false)
-    const[updateText,setUpdateText]=useState(props.title)
+
+export function TamplateForEditTitle(props: TamplateForEditTitleType) {
+    const [toggleSpanInput, setToggleSpanInput] = useState(false)
+    const [updateText, setUpdateText] = useState(props.title)
 
     const changeTitleHandler = () => {
-props.callback(updateText)
+        props.callback(updateText)
         setToggleSpanInput(false)
     }
 
@@ -17,16 +19,19 @@ props.callback(updateText)
         setToggleSpanInput(true)
     }
 
-    const editTextHandler = (event:ChangeEvent<HTMLInputElement>) => {
+    const editTextHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setUpdateText(event.currentTarget.value)
     }
-    return(
+    return (
         toggleSpanInput
-        ? <input
+            ? <TextField
+            size={'small'}
                 autoFocus
                 onBlur={changeTitleHandler}
                 value={updateText}
-                onChange={editTextHandler}/>
-        :<span onDoubleClick={toggleSpanInputHandler}>{props.title}</span>
+                onChange={editTextHandler}
+                variant="filled"/>
+
+            : <span onDoubleClick={toggleSpanInputHandler}>{props.title}</span>
     )
 }

@@ -3,6 +3,8 @@ import './App.css';
 import {FilterType, Todolist} from "./Todolist";
 import {v1} from "uuid";
 import {TemplateForTodolist} from "./TemplateForTodolist";
+import TemplateAppBar from "./AppBar";
+import {Container, Grid, Paper} from "@material-ui/core";
 
 export type TasksType = {
     id: string
@@ -90,35 +92,47 @@ function App() {
 
 
     return (
-        <div className="App">
-            <TemplateForTodolist callback={creatTodolist}/>
-            {
-                todolist.map(el => {
-                    let editTasks = tasks[el.id]
-                    if (el.filter === 'compl') {
-                        editTasks = tasks[el.id].filter(el => el.isDone)
+        <div>
+            <TemplateAppBar/>
+            <Container fixed>
+                <Grid container style={{padding:'20px'}}>
+                    <TemplateForTodolist callback={creatTodolist}/>
+                </Grid>
+                <Grid container spacing={3}>
+                    {
+                        todolist.map(el => {
+                            let editTasks = tasks[el.id]
+                            if (el.filter === 'compl') {
+                                editTasks = tasks[el.id].filter(el => el.isDone)
+                            }
+                            if (el.filter === 'undone') {
+                                editTasks = tasks[el.id].filter(el => !el.isDone)
+                            }
+                            return (
+                                <Grid item key={el.id}>
+                                    <Paper >
+                                <Todolist
+                                    changeTitleTodolist={changeTitleTodolist}
+                                    changeTitleTask={changeTitleTask}
+                                    removeTodolist={removeTodolist}
+                                    idTodolist={el.id}
+                                    filter={el.filter}
+                                    changeTaskIsDone={changeTaskIsDone}
+                                    addedTask={addedTask}
+                                    filterTasks={filterTasks}
+                                    removeTask={removeTask}
+                                    tasks={editTasks}
+                                    title={el.title}
+                                />
+                                    </Paper>
+                                </Grid>
+                            )
+                        })
                     }
-                    if (el.filter === 'undone') {
-                        editTasks = tasks[el.id].filter(el => !el.isDone)
-                    }
-                    return (
-                        <Todolist
-                            changeTitleTodolist={changeTitleTodolist}
-                            changeTitleTask={changeTitleTask}
-                            removeTodolist={removeTodolist}
-                            key={el.id}
-                            idTodolist={el.id}
-                            filter={el.filter}
-                            changeTaskIsDone={changeTaskIsDone}
-                            addedTask={addedTask}
-                            filterTasks={filterTasks}
-                            removeTask={removeTask}
-                            tasks={editTasks}
-                            title={el.title}
-                        />
-                    )
-                })
-            }
+                </Grid>
+
+
+            </Container>
 
 
         </div>

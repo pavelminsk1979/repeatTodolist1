@@ -1,5 +1,8 @@
 import st from "./Todolist.module.css";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {IconButton, TextField} from "@material-ui/core";
+import {AddCircle} from "@material-ui/icons";
+
 
  type TemplateForTodolistType = {callback:(text: string)=>void}
 
@@ -30,12 +33,19 @@ export function TemplateForTodolist(props: TemplateForTodolistType) {
 
     return (
         <div>
-            <input
+            <TextField
+                size={'small'}
                 className={error ? st.error : ''}
                 onKeyPress={onKeyPressEnterHandler}
                 value={text}
-                onChange={setTextHandler}/>
-            <button onClick={addedTaskHandler}>+</button>
+                onChange={setTextHandler}
+
+                variant="outlined" />
+
+            <IconButton onClick={addedTaskHandler} color="primary">
+<AddCircle/>
+            </IconButton>
+
             {error && <div className={st.errorMessage}>{error}</div>}
         </div>
     )
