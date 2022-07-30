@@ -11,7 +11,7 @@ type TodolistType = {
     title: string
     tasks: Array<TasksType>
     removeTask: (idTodolist: string, idTask: string) => void
-    filterTasks: (idTodolist: string, valueFilter: FilterType) => void
+    changeFilter: (idTodolist: string, valueFilter: FilterType) => void
     addedTask: (idTodolist: string, text: string) => void
     changeTaskIsDone: (idTodolist: string, idTask: string, isDone: boolean) => void
     filter: FilterType
@@ -24,7 +24,7 @@ export type FilterType = 'all' | 'compl' | 'undone'
 
 
 export function Todolist(
-    {title, tasks, removeTask, filterTasks, addedTask, changeTaskIsDone,
+    {title, tasks, removeTask, changeFilter, addedTask, changeTaskIsDone,
         filter, idTodolist, removeTodolist, changeTitleTask,changeTitleTodolist
     }: TodolistType) {
 
@@ -40,8 +40,8 @@ export function Todolist(
         removeTask(idTodolist, idTask)
     }
 
-    const filterTasksHandler = (idTodolist: string, valueFilter: FilterType) => {
-        filterTasks(idTodolist, valueFilter)
+    const changeFilterHandler = (idTodolist: string, valueFilter: FilterType) => {
+        changeFilter(idTodolist, valueFilter)
     }
 
     const addedTaskHandler = (text: string) => {
@@ -106,17 +106,17 @@ export function Todolist(
                 <Button color={filter === 'all'?'primary':'secondary'}
                     size={filter === 'all'?"medium":'small'}
                     variant={filter === 'all'?'contained':'outlined'}
-                        onClick={() => filterTasksHandler(idTodolist, 'all')}>ALL
+                        onClick={() => changeFilterHandler(idTodolist, 'all')}>ALL
                 </Button>
                 <Button color={filter === 'compl'?'primary':'secondary'}
                     size={filter === 'compl'?"medium":'small'}
                     variant={filter === 'compl'?'contained':'outlined'}
-                        onClick={() => filterTasksHandler(idTodolist, 'compl')}>Complited
+                        onClick={() => changeFilterHandler(idTodolist, 'compl')}>Complited
                 </Button>
                 <Button color={filter === 'undone'?'primary':'secondary'}
                     size={filter === 'undone'?"medium":'small'}
                     variant={filter === 'undone'?'contained':'outlined'}
-                        onClick={() => filterTasksHandler(idTodolist, 'undone')}>Undone
+                        onClick={() => changeFilterHandler(idTodolist, 'undone')}>Undone
                 </Button>
             </div>
         </div>

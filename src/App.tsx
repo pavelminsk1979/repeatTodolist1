@@ -46,12 +46,6 @@ function App() {
         setTodolist(todolist.map(el=>el.id===idTodolist?{...el,title:editTitle}:el))
     }
 
-    const changeTitleTask = (idTodolist: string,idTask: string,editTitle:string) => {
-        setTasks({...tasks,[idTodolist]:tasks[idTodolist].map(
-            el=>el.id===idTask?{...el,title:editTitle}:el
-            )})
-    }
-
     const creatTodolist = (text:string) => {
         const newTodolistId = v1()
         setTodolist([
@@ -62,6 +56,17 @@ function App() {
     const removeTodolist = (idTodolist: string) => {
         setTodolist(todolist.filter(el => el.id !== idTodolist))
         delete tasks[idTodolist]
+    }
+
+    const changeFilter = (idTodolist: string, valueFilter: FilterType) => {
+        setTodolist(todolist.map(el => el.id === idTodolist
+            ? {...el, filter: valueFilter} : el))
+    }
+
+    const changeTitleTask = (idTodolist: string,idTask: string,editTitle:string) => {
+        setTasks({...tasks,[idTodolist]:tasks[idTodolist].map(
+                el=>el.id===idTask?{...el,title:editTitle}:el
+            )})
     }
 
     const changeTaskIsDone = (idTodolist: string, idTask: string, isDone: boolean) => {
@@ -76,11 +81,6 @@ function App() {
             ...tasks, [idTodolist]: [
                 {id: v1(), title: text, isDone: true}, ...tasks[idTodolist]]
         })
-    }
-
-    const filterTasks = (idTodolist: string, valueFilter: FilterType) => {
-        setTodolist(todolist.map(el => el.id === idTodolist
-            ? {...el, filter: valueFilter} : el))
     }
 
     const removeTask = (idTodolist: string, idTask: string) => {
@@ -119,7 +119,7 @@ function App() {
                                     filter={el.filter}
                                     changeTaskIsDone={changeTaskIsDone}
                                     addedTask={addedTask}
-                                    filterTasks={filterTasks}
+                                    changeFilter={changeFilter}
                                     removeTask={removeTask}
                                     tasks={editTasks}
                                     title={el.title}
